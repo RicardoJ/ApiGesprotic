@@ -9,7 +9,8 @@ class Provider extends Model
     protected $table = 'provider';
     public $timestamps = false;
     protected $fillable = ['nombreDeLaEmpresa','nombrePersonaDeContacto','telefono','direccion','email'];
-    protected $guarded = ['id_provider'];
+    //protected $guarded = ['id_provider'];
+    protected $primaryKey = 'id_provider';
 
     public function agreement()
     {

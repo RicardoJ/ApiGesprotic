@@ -13,8 +13,9 @@ class ProviderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    { 
+        $provider = Provider::all()->toArray();
+        return response()->json($provider);
     }
 
 
@@ -27,27 +28,57 @@ class ProviderController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $agr = new Provider;
-    $agr->email = 'email@email.com';
-    $agr->direccion = '10-31-2018';
-    $agr->telefono = '8768567';
-    $agr->nombreDeLaEmpresa = 'Empresa';
-    $agr->nombrePersonaDeContacto = 'Ricardo';
-    $agr->save();
-    dd($agr);
+   
+    try{
+        if(!$request->get('nombreDeLaEmpresa')||!$request->get('nombrePersonaDeContacto')||!$request->get('telefono')||!$request->get('direccion')||!$request->get('email')){
+            return response()->json(['Advertencia'=> 'Datos erroneos o incompletos'],422);
+           }
+        
+        $provider = new Provider ([
+            'nombreDeLaEmpresa' => $request->input('nombreDeLaEmpresa'),
+            'nombrePersonaDeContacto' => $request->input('nombrePersonaDeContacto'),
+            'telefono' => $request->input('telefono'),
+            'direccion' => $request->input('direccion'),
+            'email' => $request->input('email')
+        ]);
+        $provider->save();
+        return response()->json($provider,200);
+
+        
+    }catch(\Exception $e){
+        
+        Log::critical("no se ha podido crear el proveedor: {$e->getCode()} , {$e->getLine()} , {$e->getMessage()}");
+        return response('Algo esta mal',500);
+    }
+      
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Provider  $provider
+     * 
+     * @param int $id_provider
      * @return \Illuminate\Http\Response
      */
-    public function show(Provider $provider)
+    public function show($id_provider)
     {
-        //
-        dd(Provider::all());
+     
+       try{
+           
+            $provider =Provider::find($id_provider);
+            
+            
+            if (!$provider) {
+                return response()->json(['No existe el proveedor'],404);
+            }
+            return response()->json(['datos' => $provider],200);
+
+        }catch(\Exception $e){
+            
+            Log::critical("no esta creado el proveedor: {$e->getCode()} , {$e->getLine()} , {$e->getMessage()}");
+            return response('Algo esta mal',500);
+        }
     }
 
 
@@ -66,11 +97,26 @@ class ProviderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Provider  $provider
+     * @param  int $id_provider
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Provider $provider)
+    public function destroy($id_provider)
     {
-        //
+        try{
+           
+            $provider =Provider::find($id_provider);
+            
+            
+            if (!$provider) {
+                return response()->json(['No existe el proveedor'],404);
+            }
+            $provider->delete();
+            return response()->json(['Eliminado' => $provider],200);
+
+        }catch(\Exception $e){
+            
+            Log::critical("ERROR: {$e->getCode()} , {$e->getLine()} , {$e->getMessage()}");
+            return response('Algo esta mal',500);
+        }
     }
 }

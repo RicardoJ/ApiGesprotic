@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\Provider;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,7 +16,13 @@ use Illuminate\Http\Request;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
+
+
+
+//Route::get('/showproviders','ProviderController@show');
+
 Route::apiResource('users','UserController');
 Route::apiResource('providers','ProviderController');
 Route::apiResource('projectteams','ProjectTeamController');
 Route::apiResource('agreements','AgreementController');
+

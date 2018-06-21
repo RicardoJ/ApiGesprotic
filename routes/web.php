@@ -15,5 +15,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/create', 'ProviderController@store');
-Route::get('/show', 'ProviderController@show');
