@@ -86,14 +86,55 @@ class ProviderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Provider  $provider
+     * @param  int $id_provider
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Provider $provider)
+    public function update(Request $request, $id_provider)
     {
-        //
+        $metodo= $request->method();
+        $provider = Provider::find($id_provider);
+        if($metodo==="PATCH"){
+            $nombreDeLaEmpresa= $request->get('nombreDeLaEmpresa');
+            if ($nombreDeLaEmpresa!=null && $nombreDeLaEmpresa !='') {
+                $provider->nombreDeLaEmpresa=$nombreDeLaEmpresa;
+            }
+            $nombrePersonaDeContacto= $request->get('nombrePersonaDeContacto');
+            if ($nombrePersonaDeContacto!=null && $nombrePersonaDeContacto !='') {
+                $provider->nombrePersonaDeContacto=$nombrePersonaDeContacto;
+            }
+            $telefono= $request->get('telefono');
+            if ($telefono!=null && $telefono !='') {
+                $provider->telefono=$telefono;
+            }
+            $direccion= $request->get('direccion');
+            if ($direccion!=null && $direccion !='') {
+                $provider->direccion=$direccion;
+            }
+            $email= $request->get('email');
+            if ($email!=null && $email !='') {
+                $provider->email=$email;
+           
+        }
+        $provider->save();
+        return response()->json(['Proveedor editado'],200);
     }
+    $nombreDeLaEmpresa= $request->get('nombreDeLaEmpresa');
+    $nombrePersonaDeContacto= $request->get('nombrePersonaDeContacto');
+    $telefono= $request->get('telefono');
+    $direccion= $request->get('direccion');
+    $email= $request->get('email');
+    if(!$nombreDeLaEmpresa|| !$nombrePersonaDeContacto||!$telefono||!$direccion||!$email){
+        return response()->json(['Advertencia'=> 'Datos erroneos o incompletos'],404);
+       }
+       $provider->nombreDeLaEmpresa=$nombreDeLaEmpresa;
+       $provider->nombrePersonaDeContacto=$nombrePersonaDeContacto;
+       $provider->telefono=$telefono;
+       $provider->direccion=$direccion;
+       $provider->email=$email;
+       $provider->save();
+       return response()->json(['Proveedor editado'],200);
 
+    }
     /**
      * Remove the specified resource from storage.
      *
