@@ -21,12 +21,13 @@ class CreateAgreementsTable extends Migration
             $table->string('metodoDePago');
             $table->string('nombreDeLaEmpresa');
             $table->string('personaEncargada');
-            $table->integer('provider_id')->unsigned();
+            $table->integer('id_provider')->unsigned();
+            $table->integer('id_provider')-references('id_provider')->on('Provider');
             $table->timestamps();
-
+/*
             $table->foreign('id_provider')
                                 ->references('id')->on('providers')
-                                ->onDelete('cascade');
+                                ->onDelete('cascade');*/
         });
     }
 

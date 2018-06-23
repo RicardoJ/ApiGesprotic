@@ -46,7 +46,7 @@ class ProviderController extends Controller
             'email' => $request->input('email')
         ]);
         $provider->save();
-        return response()->json($provider,200);
+        return response()->json(['Creado'=>$provider],200);
 
         
     }catch(\Exception $e){

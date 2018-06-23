@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Provider;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,8 +22,10 @@ use App\Provider;
 
 //Route::get('/showproviders','ProviderController@show');
 
-Route::apiResource('users','UserController');
+//Route::apiResource('users','UserController');
 Route::apiResource('providers','ProviderController');
-Route::apiResource('projectteams','ProjectTeamController');
-Route::apiResource('agreements','AgreementController');
-
+Route::apiResource('agreements','AgreementController',['only'=>['index','show']]);
+Route::Resource('providers.agreements','ProviderAgreementController',['except'=>['show','create','edit']]);
+//Route::apiResource('projectteams','ProjectTeamController');
+//Route::apiResource('provideragreements','ProviderAgreementController');
+//Route::apiResource('projects','ProjectController');

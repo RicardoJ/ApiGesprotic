@@ -27,16 +27,18 @@ class AgreementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {/*
+        Pendiente a correcion o eliminar de aqui esta funcion 
+
         $contenidoDelContrato= $request->get('contenidoDelContrato');
         $fechaDeEntrega= $request->get('fechaDeEntrega');
         $fechaDelContrato= $request->get('fechaDelContrato');
         $metodoDePago= $request->get('metodoDePago');
         $nombreDeLaEmpresa= $request->get('nombreDeLaEmpresa');
         $personaEncargada= $request->get('personaEncargada');
-       // $nombreDeLaEmpresa= $request->get('nombreDeLaEmpresa');
+        $id_provider= $request->get('id_provider');
         try{
-            if(!$contenidoDelContrato||!$fechaDeEntrega||!$fechaDelContrato||!$metodoDePago||!$nombreDeLaEmpresa||!$personaEncargada){
+            if(!$contenidoDelContrato||!$fechaDeEntrega||!$fechaDelContrato||!$metodoDePago||!$nombreDeLaEmpresa||!$personaEncargada||!$id_provider){
                 return response()->json(['Advertencia'=> 'Datos erroneos o incompletos'],422);
                }
             
@@ -46,17 +48,18 @@ class AgreementController extends Controller
                 'fechaDelContrato' => $request->input('fechaDelContrato'),
                 'metodoDePago' => $request->input('metodoDePago'),
                 'nombreDeLaEmpresa' => $request->input('nombreDeLaEmpresa'),
-                'personaEncargada' => $request->input('personaEncargada')
+                'personaEncargada' => $request->input('personaEncargada'),
+                'id_provider'=>$request->input('id_provider')
             ]);
             $agreement->save();
-            return response()->json($agreement,200);
-    
+            return response()->json(['Creado'=>$agreement],200);
+            
             
         }catch(\Exception $e){
             
             Log::critical("no se ha podido crear el proveedor: {$e->getCode()} , {$e->getLine()} , {$e->getMessage()}");
             return response('Algo esta mal',500);
-        }
+        }*/
     }
 
     /**
@@ -103,6 +106,7 @@ class AgreementController extends Controller
         $metodoDePago= $request->get('metodoDePago');
         $nombreDeLaEmpresa= $request->get('nombreDeLaEmpresa');
         $personaEncargada= $request->get('personaEncargada');
+        $id_provider= $request->get('id_provider');
 
         if($metodo==="PATCH"){
             
@@ -129,11 +133,14 @@ class AgreementController extends Controller
             if ($personaEncargada!=null && $personaEncargada !='') {
                 $agreement->personaEncargada=$personaEncargada;
             }
+            if ($id_provider!=null && $id_provider !='') {
+                $agreement->id_provider=$id_provider;
+            }
         $agreement->save();
         return response()->json([' editado'],200);
     }
     
-    if(!$contenidoDelContrato|| !$fechaDeEntrega||!$fechaDelContrato||!$metodoDePago||!$nombreDeLaEmpresa||!$personaEncargada){
+    if(!$contenidoDelContrato|| !$fechaDeEntrega||!$fechaDelContrato||!$metodoDePago||!$nombreDeLaEmpresa||!$personaEncargada||!$id_provider){
         return response()->json(['Advertencia'=> 'Datos erroneos o incompletos'],404);
        }
        $agreement->contenidoDelContrato=$contenidoDelContrato;
@@ -142,6 +149,7 @@ class AgreementController extends Controller
        $agreement->metodoDePago=$metodoDePago;
        $agreement->nombreDeLaEmpresa=$nombreDeLaEmpresa;
        $agreement->personaEncargada=$personaEncargada;
+       $agreement->id_provider=$id_provider;
        $agreement->save();
        return response()->json(['contrato editado'],200);
     }
