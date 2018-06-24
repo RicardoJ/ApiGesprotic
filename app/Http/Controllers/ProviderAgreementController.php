@@ -24,15 +24,7 @@ class ProviderAgreementController extends Controller
         return response()->json(['Proveedor con contrato'=>$agreement],202);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -88,16 +80,7 @@ class ProviderAgreementController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ProviderAgreement  $providerAgreement
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ProviderAgreement $providerAgreement)
-    {
-        //
-    }
+ 
 
     /**
      * Update the specified resource in storage.
@@ -106,9 +89,78 @@ class ProviderAgreementController extends Controller
      * @param  \App\ProviderAgreement  $providerAgreement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProviderAgreement $providerAgreement)
+    public function update(Request $request, $id_provider,$id_agreement)
     {
-        //
+        $metodo= $request->method();
+        $provider = Provider::find($id_provider);
+        if (!$provider) {
+            return response()->json(['No se encuentra  el proveedor'],404);
+        }
+        $agreement=$provider->agreement()->find($id_agreement);
+        if (!$agreement) {
+                return response()->json(['No existe el contrato'],404);
+            }
+
+            $contenidoDelContrato= $request->get('contenidoDelContrato');
+            $fechaDeEntrega= $request->get('fechaDeEntrega');
+            $fechaDelContrato= $request->get('fechaDelContrato');
+            $metodoDePago= $request->get('metodoDePago');
+            $nombreDeLaEmpresa= $request->get('nombreDeLaEmpresa');
+            $personaEncargada= $request->get('personaEncargada');
+
+            $flag=false;
+        if($metodo==="PATCH"){
+         
+            if ($contenidoDelContrato!=null && $contenidoDelContrato !='') {
+                $agreement->contenidoDelContrato=$contenidoDelContrato;
+                $flag=true;
+            }
+            
+            if ($fechaDeEntrega!=null && $fechaDeEntrega !='') {
+                $agreement->fechaDeEntrega=$fechaDeEntrega;
+                $flag=true;
+            }
+            
+            if ($fechaDelContrato!=null && $fechaDelContrato !='') {
+                $agreement->fechaDelContrato=$fechaDelContrato;
+                $flag=true;
+            }
+            
+            if ($metodoDePago!=null && $metodoDePago !='') {
+                $agreement->metodoDePago=$metodoDePago;
+                $flag=true;
+            }
+            
+            if ($nombreDeLaEmpresa!=null && $nombreDeLaEmpresa !='') {
+                $agreement->nombreDeLaEmpresa=$nombreDeLaEmpresa;
+                $flag=true;
+            }
+            
+            if ($personaEncargada!=null && $personaEncargada !='') {
+                $agreement->personaEncargada=$personaEncargada;
+                $flag=true;
+            }
+          
+            if ($flag) {
+                $agreement->save();
+                return response()->json(['Contrato editado'],202);
+            }
+            return response()->json(['No se ha podido guardar los cambios'],200);
+       
+    }
+    
+    if(!$contenidoDelContrato|| !$fechaDeEntrega||!$fechaDelContrato||!$metodoDePago||!$nombreDeLaEmpresa||!$personaEncargada){
+        return response()->json(['Advertencia'=> 'Datos erroneos o incompletos'],404);
+       }
+       $agreement->contenidoDelContrato=$contenidoDelContrato;
+       $agreement->fechaDeEntrega=$fechaDeEntrega;
+       $agreement->fechaDelContrato=$fechaDelContrato;
+       $agreement->metodoDePago=$metodoDePago;
+       $agreement->nombreDeLaEmpresa=$nombreDeLaEmpresa;
+       $agreement->personaEncargada=$personaEncargada;
+       //$agreement->id_provider=$id_provider;
+       $agreement->save();
+       return response()->json(['contrato editado'],200);
     }
 
     /**
@@ -117,8 +169,17 @@ class ProviderAgreementController extends Controller
      * @param  \App\ProviderAgreement  $providerAgreement
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProviderAgreement $providerAgreement)
+    public function destroy($id_provider,$id_agreement)
     {
-        //
+        $provider = Provider::find($id_provider);
+        if (!$provider) {
+            return response()->json(['No se encuentra  el proveedor'],404);
+        }
+        $agreement=$provider->agreement()->find($id_agreement);
+        if (!$agreement) {
+                return response()->json(['No existe el contrato del proveedor asociado'],404);
+            }
+            $agreement->delete();
+            return response()->json(['contrato eliminado'],200);
     }
 }

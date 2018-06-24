@@ -97,7 +97,7 @@ class AgreementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id_agreement)
-    {
+    {/*
         $metodo= $request->method();
         $agreement = Agreement::find($id_agreement);
         $contenidoDelContrato= $request->get('contenidoDelContrato');
@@ -138,6 +138,7 @@ class AgreementController extends Controller
             }
         $agreement->save();
         return response()->json([' editado'],200);
+        
     }
     
     if(!$contenidoDelContrato|| !$fechaDeEntrega||!$fechaDelContrato||!$metodoDePago||!$nombreDeLaEmpresa||!$personaEncargada||!$id_provider){
@@ -152,6 +153,7 @@ class AgreementController extends Controller
        $agreement->id_provider=$id_provider;
        $agreement->save();
        return response()->json(['contrato editado'],200);
+       */
     }
 
     /**
@@ -161,7 +163,7 @@ class AgreementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id_agreement)
-    {
+    {/*
         try{
            
             $agreement =Agreement::find($id_agreement);
@@ -178,5 +180,6 @@ class AgreementController extends Controller
             Log::critical("ERROR: {$e->getCode()} , {$e->getLine()} , {$e->getMessage()}");
             return response('Algo esta mal',500);
         }
+        */
     }
 }

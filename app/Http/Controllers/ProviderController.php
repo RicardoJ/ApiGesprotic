@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Provider;
+use App\Agreement;
 use Illuminate\Http\Request;
 
 class ProviderController extends Controller
@@ -151,15 +152,17 @@ class ProviderController extends Controller
         try{
            
             $provider =Provider::find($id_provider);
-            
-            
             if (!$provider) {
                 return response()->json(['No existe el proveedor'],404);
+            }
+            $agreement=$provider->agreement;
+            if ($agreement) {
+                return response()->json(['No se puede eliminar, el proveedor tiene contrato'],404);
             }
             $provider->delete();
             return response()->json(['Eliminado' => $provider],200);
 
-        }catch(\Exception $e){
+       }catch(\Exception $e){
             
             Log::critical("ERROR: {$e->getCode()} , {$e->getLine()} , {$e->getMessage()}");
             return response('Algo esta mal',500);
