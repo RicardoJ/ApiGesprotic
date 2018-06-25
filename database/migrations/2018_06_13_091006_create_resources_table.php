@@ -16,8 +16,8 @@ class CreateResourcesTable extends Migration
         Schema::create('resources', function (Blueprint $table) {
             $table->increments('id_resource');
             $table->string('descripcion');
-            $table->date('fechaFinal');
             $table->date('fechaInicial');
+            $table->date('fechaFinal');
             $table->string('nombreDelRecurso');
             $table->string('origen');
             $table->string('relevancia');

@@ -26,6 +26,6 @@ use App\Provider;
 Route::apiResource('providers','ProviderController');
 Route::apiResource('agreements','AgreementController',['only'=>['index','show']]);
 Route::Resource('providers.agreements','ProviderAgreementController',['except'=>['show','create','edit']]);
-//Route::apiResource('projectteams','ProjectTeamController');
-//Route::apiResource('provideragreements','ProviderAgreementController');
+Route::apiResource('projectteams','ProjectTeamController');
+Route::apiResource('resources','ResourceController');
 //Route::apiResource('projects','ProjectController');

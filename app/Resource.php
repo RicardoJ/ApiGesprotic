@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Resource extends Model
 {
     protected $table = 'resource';
+    public $timestamps = false;
     protected $fillable = ['descripcion','fechaFinal','fechaInicial','nombreDelRecurso','origen','relevancia','tipo','unidades'];
-    protected $guarded = ['id_resource'];
+    protected $primaryKey = 'id_resource';
 }

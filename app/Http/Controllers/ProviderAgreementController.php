@@ -69,17 +69,7 @@ class ProviderAgreementController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ProviderAgreement  $providerAgreement
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ProviderAgreement $providerAgreement)
-    {
-        //
-    }
-
+  
  
 
     /**
